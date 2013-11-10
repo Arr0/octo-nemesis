@@ -1,20 +1,30 @@
 #include <iostream>
 #include <windows.h>
-#include <string>
 
 using namespace std;
 
 class Invoice {
 private:
+	// Variables to store item cost
 	int labourCost,
 		travelCost,
 		plasticPipesCost,
 		copperPipesCost,
-		chromePipesCost;
+		chromePipesCost,
+		vatPercentage;
+	
+	// Variables to store user input 
+	int labour,
+		travel,
+		plasticPipes,
+		copperPipes,
+		chromePipes,
+		total, vat;
 public:
-	Invoice();
-	~Invoice();
-	void getInvoice();
+	Invoice(); // Constructor
+	~Invoice(); // Destructor
+	void setValues(); // Sets all values to create invoice
+	void getInvoice(); // Calculates cost and displays invoice
 };
 
 Invoice::Invoice() {
@@ -23,6 +33,7 @@ Invoice::Invoice() {
 	plasticPipesCost = 2;
 	copperPipesCost = 3;
 	chromePipesCost = 4;
+	vatPercentage = 20;
 
 	cout << "PT Plumbing Invoice Calculator" << endl;
 	cout << "------------------------------" << endl << endl;
@@ -32,18 +43,9 @@ Invoice::~Invoice() {
 	cout << endl << endl << "[INVOICE CALCULATED]" << endl;
 }
 
-void Invoice::getInvoice() {
-	
+void Invoice::setValues() {
 	// Stores user input
 	int input;
-
-	// Stores user data for each item
-	int labour,
-		travel,
-		plasticPipes,
-		copperPipes,
-		chromePipes,
-		vat, total;
 
 	// Gets user to input values
 	cout << "Enter values to estimate cost of job" << endl << endl;
@@ -71,12 +73,16 @@ void Invoice::getInvoice() {
 	cin >> input;
 	cout << endl;
 	chromePipes = input;
+}
 
-	cout << endl << "--------------PT Plumbing - Invoice-------------" << endl << endl;
+void Invoice::getInvoice() {
+
+	// Invoice       
+	cout << endl << "##############PT Plumbing - Invoice#############" << endl << endl;
 	cout << "Item";
 	cout.width(26);
 	cout << "Amount";
-	cout.width(14);
+	cout.width(14);                                 
 	cout << "Cost(" << char(156) << ")" << endl << "------------------------------------------------" << endl;
 
 	// Display labour amount
@@ -122,11 +128,11 @@ void Invoice::getInvoice() {
 			(chromePipes * chromePipesCost);
 
 	// Calculate VAT at 20%
-	vat = (total * 20) / 100;
+	vat = (total * vatPercentage) / 100;
 
 	// Display VAT
-	cout << "VAT";
-	cout.width(41);
+	cout << "VAT @ 20%";
+	cout.width(35);
 	cout << vat << endl;
 
 	// Display total
@@ -134,7 +140,7 @@ void Invoice::getInvoice() {
 	cout.width(39);
 	cout << total + vat << endl;
 
-	cout << "------------------------------------------------";
+	cout << "################################################";
 }
 
 int main() {
@@ -145,6 +151,8 @@ int main() {
 	// Create Invoice object
 	Invoice invoice;
 
+	// Set values and get invoice
+	invoice.setValues();
 	invoice.getInvoice();
 
 	return 0;
